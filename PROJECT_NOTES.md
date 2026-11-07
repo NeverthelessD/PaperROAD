@@ -20,14 +20,16 @@ PDF 페이지 정리 · 변환 앱. macOS (Apple Silicon). made by. Nevertheless
 - [x] 5. 맥 앱 껍데기(Swift): Dock 앱 · 파일/폴더 고르기 창 · Finder 끌어 놓기 · Dock 아이콘에 떨어뜨리기 · 투명 제목 막대 + 설정 단추
 - [x] 6. 리눅스에서 Playwright 로 모든 흐름 시험 (합치기 · 회전 · 끌기 · 지우기/되돌리기 · 분할 4가지 · 압축 · PDF→PNG · 사진→PDF · 매번 물어보기)
 - [x] 7. 사용 가이드 이미지 (docs/PaperROAD_사용가이드.png)
-- [ ] 8. 맥 빌드 서버: build=ok · smoke=ok, 스크린샷이 시안과 같은지 확인
-- [ ] 9. v1.0.0 release.sh → releases/ · download/ · 커밋 · 푸시, '앱 받기' 링크 확인
+- [x] 8. 맥 빌드 서버: build=ok · smoke=ok (24/24, macOS 15 · Apple Silicon), 스크린샷이 시안과 같음 확인
+- [x] 9. v1.0.0 release.sh → releases/ · download/ · 커밋 · 푸시, '앱 받기' 링크 확인
 
 ### 다음에 할 수 있는 일
 - [ ] 사용자 맥에서 실제로 써 보기 (끌어 놓기 · 파일 선택 창 · 저장 위치 · HEIC)
 
 ### 작업 기록
-- 2026-11-08 v1.0.0 — 첫 버전 제작 (디자인 확정 뒤).
+- 2026-11-08 v1.0.0 — 첫 버전 (디자인 확정 뒤 제작). 맥 빌드 서버 첫 실행에서 24/24 통과.
+  실제 맥 스크린샷(shot-merge · shot-img2pdf-dark · shot-split · shot-open-with)에서 WKWebView 안 pdf.js 썸네일 · HEIC · 투명 제목 막대 + 설정 단추 확인.
+  참고: 시험용 HEIC 는 투명 PNG 를 바꾼 것이라 모서리가 검게 보여요(앱 문제 아님).
 
 ## 구조
 
