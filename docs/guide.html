@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>PaperROAD 사용 가이드</title>
+<!-- 사용 가이드 이미지 원본. python3 scripts/guide.py 로 docs/PaperROAD_사용가이드.png 를 만들어요 -->
+<style>
+@font-face { font-family: "IBM Plex Sans KR"; src: url("../engine/web/fonts/IBMPlexSansKR-Regular.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "IBM Plex Sans KR"; src: url("../engine/web/fonts/IBMPlexSansKR-Medium.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "IBM Plex Sans KR"; src: url("../engine/web/fonts/IBMPlexSansKR-SemiBold.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "IBM Plex Sans KR"; src: url("../engine/web/fonts/IBMPlexSansKR-Bold.woff2") format("woff2"); font-weight: 700; }
+@font-face { font-family: "Gothic A1"; src: url("../engine/web/fonts/GothicA1-ExtraBold.woff2") format("woff2"); font-weight: 800; }
+:root { --bg: #F6F7F9; --surface: #FFFFFF; --ink: #16181D; --muted: #5B6270; --line: #E3E6EB; --accent: #2C4BDB; --soft: #EEF1FD; --pdf: #C62828; --img: #0F7A6F; --amber: #F2B807; }
+* { box-sizing: border-box; word-break: keep-all; overflow-wrap: break-word; }
+h1, h2, h3 { text-wrap: balance; } p, li, span { text-wrap: pretty; }
+body { margin: 0; width: 1200px; background: var(--bg); color: var(--ink); font: 400 15px/1.6 "IBM Plex Sans KR", sans-serif; -webkit-font-smoothing: antialiased; }
+.hero { display: flex; align-items: center; gap: 28px; padding: 44px 56px 36px; background: var(--surface); border-bottom: 1px solid var(--line); }
+.hero img { width: 112px; height: 112px; }
+.hero h1 { margin: 0; font: 800 46px/1.1 "Gothic A1", sans-serif; letter-spacing: -0.02em; }
+.hero p { margin: 10px 0 12px; font-size: 18px; font-weight: 500; color: var(--muted); }
+.fmt { display: inline-block; padding: 2px 8px; border-radius: 5px; color: #FFFFFF; font-size: 12px; font-weight: 700; letter-spacing: .04em; }
+.fmt.pdf { background: var(--pdf); } .fmt.img { background: var(--img); }
+.formats { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+.wrap { padding: 8px 40px 28px; }
+h2 { margin: 28px 4px 14px; font-size: 21px; font-weight: 700; display: flex; align-items: baseline; gap: 12px; }
+h2 small { font-size: 14px; font-weight: 500; color: var(--muted); }
+.row { display: grid; gap: 14px; }
+.c3 { grid-template-columns: repeat(3, 1fr); }
+.c2 { grid-template-columns: 1fr 1fr; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+.step b.n { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: var(--soft); color: var(--accent); font: 800 15px "Gothic A1"; }
+.step h3 { margin: 12px 0 6px; font-size: 16.5px; }
+.step p { margin: 0; color: var(--muted); font-size: 14px; }
+.step p strong { color: var(--ink); }
+.task { display: flex; gap: 14px; align-items: flex-start; }
+.task .ic { width: 44px; height: 44px; flex: none; border-radius: 12px; background: var(--soft); color: var(--accent); display: flex; align-items: center; justify-content: center; }
+.task h3 { margin: 0 0 4px; font-size: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.task p { margin: 0; color: var(--muted); font-size: 14px; }
+.fl { display: inline-flex; gap: 3px; align-items: center; font-size: 11px; font-weight: 700; color: var(--muted); }
+.fl .fmt { font-size: 10.5px; padding: 1px 6px; }
+.tips li { margin: 0 0 8px; color: var(--muted); font-size: 14px; }
+.tips li strong { color: var(--ink); }
+.tips ul { margin: 0; padding-left: 18px; }
+.warn { border-color: #F2D27A; background: #FFFBEA; }
+.foot { display: flex; justify-content: space-between; padding: 18px 40px 26px; color: var(--muted); font-size: 13px; }
+kbd { display: inline-block; padding: 0 6px; border-radius: 5px; border: 1px solid var(--line); background: var(--bg); font: 600 12px/20px "IBM Plex Sans KR", sans-serif; color: var(--ink); }
+</style>
+</head>
+<body>
+<section class="hero">
+  <img src="../app/AppIcon.png" alt="">
+  <div>
+    <h1>PaperROAD</h1>
+    <p>PDF 페이지 정리 · 변환 — 합치기, 나누기, 돌리기, 줄이기, 사진 ↔ PDF</p>
+    <div class="formats">다룰 수 있는 형식 <span class="fmt pdf">PDF</span><span class="fmt img">JPG</span><span class="fmt img">PNG</span><span class="fmt img">HEIC</span></div>
+  </div>
+</section>
+<div class="wrap">
+  <h2>처음 설치하기 <small>한 번만 하면 돼요</small></h2>
+  <div class="row c3">
+    <div class="card step"><b class="n">1</b><h3>응용 프로그램 폴더로 옮기기</h3><p>받은 zip을 풀고 <strong>PaperROAD.app</strong>을 <strong>응용 프로그램</strong> 폴더로 옮겨요. 그래야 새 버전을 알아서 받을 수 있어요.</p></div>
+    <div class="card step"><b class="n">2</b><h3>처음 열 때 경고가 뜨면</h3><p><strong>시스템 설정 → 개인정보 보호 및 보안</strong> 아래쪽의 <strong>"그래도 열기"</strong>를 눌러요. 한 번만 하면 다음부터는 그냥 열려요.</p></div>
+    <div class="card step"><b class="n">3</b><h3>Dock에 두고 쓰기</h3><p>PDF를 <strong>Dock의 PaperROAD 아이콘 위에 떨어뜨려도</strong> 바로 열려요. 창을 닫아도 Dock에 남아 있어요.</p></div>
+  </div>
+
+  <h2>할 수 있는 일 <small>첫 화면에서 작업을 고르거나, 카드 위로 파일을 끌어다 놓아요</small></h2>
+  <div class="row c2">
+    <div class="card task"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M9 3h8l3 3v11a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M5 7v12a2 2 0 0 0 2 2h9"/></svg></span><div><h3>합치기 · 순서 바꾸기 <span class="fl"><span class="fmt pdf">PDF</span>+<span class="fmt pdf">PDF</span>→<span class="fmt pdf">PDF</span></span></h3><p>여러 PDF를 넣고 페이지를 끌어서 순서를 정해요. 왼쪽 파일 목록을 끌면 파일째로 옮겨져요.</p></div></div>
+    <div class="card task"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg></span><div><h3>분할 · 페이지 추출 <span class="fl"><span class="fmt pdf">PDF</span>→<span class="fmt pdf">PDF</span><span class="fmt img">JPG</span></span></h3><p>고른 페이지만 새 PDF로, 몇 쪽씩 · 범위(예: 1-3, 6, 8-)로 나누기, 전체나 고른 페이지를 JPG로 저장해요.</p></div></div>
+    <div class="card task"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v5h-5"/></svg></span><div><h3>회전 · 삭제 <span class="fl"><span class="fmt pdf">PDF</span>→<span class="fmt pdf">PDF</span></span></h3><p>페이지를 누르면 돌리기 · 지우기 단추가 나와요. <kbd>⌘</kbd>를 누른 채 누르면 여러 쪽을 함께 골라요.</p></div></div>
+    <div class="card task"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg></span><div><h3>압축 · PDF → 이미지 <span class="fl"><span class="fmt pdf">PDF</span>→<span class="fmt img">JPG</span><span class="fmt img">PNG</span></span></h3><p>가볍게 · 보통 · 강하게 중에서 고르면 줄어든 크기를 미리 보여 줘요. PDF를 JPG · PNG로도 바꿔요.</p></div></div>
+    <div class="card task"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg></span><div><h3>이미지 → PDF <span class="fl"><span class="fmt img">JPG</span><span class="fmt img">PNG</span>→<span class="fmt pdf">PDF</span></span></h3><p>사진 · 스캔을 끌어서 순서를 정하고, 용지(사진 크기 · A4 · 레터) · 방향 · 여백을 골라 PDF 한 파일로 만들어요.</p></div></div>
+    <div class="card tips"><ul>
+      <li><strong>원본은 그대로예요.</strong> 결과는 늘 새 파일로 저장해요. 같은 이름이 있으면 (2)를 붙여요.</li>
+      <li><strong>저장 위치</strong>는 설정에서: 원본 파일 옆 · 다운로드 폴더 · 매번 물어보기.</li>
+      <li>저장이 끝나면 <strong>Finder에서 보기</strong>를 눌러요. 첫 화면 <strong>최근 작업</strong>에도 남아요.</li>
+    </ul></div>
+  </div>
+
+  <h2>알아 두면 좋아요</h2>
+  <div class="row c3">
+    <div class="card tips"><ul><li><kbd>⌘</kbd><kbd>Z</kbd> 되돌리기 · <kbd>⌫</kbd> 고른 페이지 지우기 · <kbd>R</kbd> 돌리기</li><li><kbd>⌘</kbd><kbd>O</kbd> 파일 넣기 · <kbd>⌘</kbd><kbd>,</kbd> 설정</li></ul></div>
+    <div class="card tips"><ul><li><strong>모든 작업은 이 맥 안에서만</strong> 처리돼요. 파일이 인터넷으로 나가지 않아요.</li><li>새 버전이 나오면 앱이 <strong>알아서 받아요.</strong> 설정에서 직접 확인도 할 수 있어요.</li></ul></div>
+    <div class="card tips warn"><ul><li><strong>암호가 걸린 PDF</strong>는 암호를 푼 뒤에 넣어 주세요.</li><li>압축은 PDF 안의 <strong>사진을</strong> 줄여요. 글자만 있는 PDF는 거의 줄지 않아요.</li></ul></div>
+  </div>
+</div>
+<div class="foot"><span>PaperROAD · PDF 페이지 정리 · 변환</span><span>made by. Nevertheless_D</span></div>
+</body>
+</html>

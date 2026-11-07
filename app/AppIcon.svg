@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- PaperROAD 앱 아이콘: 파란 바탕 · 흰 종이 · 노란 접힌 모서리 (맥 아이콘 크기 규격 824px 안에) -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3D5CF0"/>
+      <stop offset="1" stop-color="#2440C4"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EEF1FD"/>
+    </linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#0B1647" flood-opacity="0.35"/>
+    </filter>
+    <filter id="outer" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="url(#bg)" filter="url(#outer)"/>
+  <g filter="url(#sh)">
+    <path d="M330 214h250l166 166v398a32 32 0 0 1-32 32H330a32 32 0 0 1-32-32V246a32 32 0 0 1 32-32z" fill="url(#paper)"/>
+    <path d="M580 214v134a32 32 0 0 0 32 32h134z" fill="#F2B807"/>
+  </g>
+  <rect x="368" y="300" width="160" height="26" rx="13" fill="#5B6270"/>
+  <rect x="368" y="452" width="290" height="30" rx="15" fill="#2C4BDB"/>
+  <rect x="368" y="530" width="290" height="30" rx="15" fill="#2C4BDB" opacity="0.55"/>
+  <rect x="368" y="608" width="200" height="30" rx="15" fill="#2C4BDB" opacity="0.55"/>
+  <rect x="320" y="680" width="150" height="74" rx="16" fill="#C62828"/>
+  <text x="395" y="733" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="44" font-weight="700" fill="#FFFFFF" letter-spacing="2">PDF</text>
+</svg>

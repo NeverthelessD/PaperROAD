@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PaperROAD</title>
+<link rel="icon" href="/icon.png">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div id="app">
+  <header class="titlebar">
+    <div class="lights" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="brand">
+      <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path class="pg" d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path><path class="fold" d="M15 2v5h5z"></path><path class="ln" d="M8 12h8M8 16h5" stroke-width="1.8" stroke-linecap="round"></path></svg>
+      <b>PaperROAD</b>
+    </div>
+    <button type="button" class="icon-btn" id="settingsBtn" aria-label="설정" title="설정 (⌘,)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"></path><circle cx="16" cy="6" r="2"></circle><circle cx="10" cy="12" r="2"></circle><circle cx="18" cy="18" r="2"></circle></svg>
+      <i class="dot-badge" id="updDot" hidden></i>
+    </button>
+  </header>
+  <div class="view" id="view"></div>
+</div>
+<div id="toasts" role="status" aria-live="polite"></div>
+<div id="dropveil" aria-hidden="true"></div>
+<input type="file" id="fileInput" multiple hidden>
+<script src="/js/core.js"></script>
+<script src="/js/screens.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
