@@ -1,11 +1,11 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "date": "2026-11-08",
-  "zip": "PaperROAD-1.0.0.zip",
-  "sha256": "89af6ae68e5376a580d5eb7fccd9d7d2407286417e5eb2036a5d1ee8e6ddcd01",
-  "size": 12643070,
+  "zip": "PaperROAD-1.0.1.zip",
+  "sha256": "4fd535cc0b163ae1474fde42aa0e239a587b4ceecd752c96d451ad9cc40dffc9",
+  "size": 12627036,
   "notes": [
-    "첫 버전",
-    "합치기 · 순서 바꾸기 · 회전 · 삭제 · 분할(JPG 저장 포함) · 압축 · PDF ↔ 이미지"
+    "불러온 파일을 목록에서 뺄 수 있어요 (모든 화면, 되돌리기 가능)",
+    "원본 파일은 그대로예요"
   ]
 }
