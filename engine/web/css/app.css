@@ -194,7 +194,7 @@ body.native .titlebar .icon-btn { visibility: hidden; }
 .filecard .nm { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .filecard .nm b { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .filecard .nm span { font-size: 12px; color: var(--muted); }
-.filecard .x { width: 32px; height: 32px; border-radius: 8px; border: none; background: transparent; color: var(--faint); display: flex; align-items: center; justify-content: center; }
+.filecard .x { width: 32px; height: 32px; border-radius: 8px; border: none; background: transparent; color: var(--muted); display: flex; align-items: center; justify-content: center; flex: none; }
 .filecard .x:hover { background: var(--muted-bg); color: var(--danger); }
 .hint { margin: 0; font-size: 12px; line-height: 1.6; color: var(--muted); }
 
@@ -241,6 +241,11 @@ body.native .titlebar .icon-btn { visibility: hidden; }
 .right { display: flex; justify-content: flex-end; }
 
 /* 이미지 → PDF */
+/* 사진 칸 오른쪽 위 ✕ (목록에서 빼기) — 늘 보이고, 올리면 빨갛게 */
+.tile-x { position: absolute; top: 7px; right: 7px; width: 28px; height: 28px; padding: 0; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center;
+  background: rgba(22,24,29,.62); color: #FFFFFF; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: background .12s ease, transform .12s ease; }
+.tile-x svg { width: 14px; height: 14px; }
+.tile-x:hover { background: var(--pdf); transform: scale(1.06); }
 .addphoto { aspect-ratio: 4 / 3; width: 100%; border-radius: 10px; border: 1.5px dashed var(--dash); background: var(--surface); color: var(--muted); font-size: 13px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
 .addphoto:hover { border-color: var(--accent); color: var(--accent); }
 

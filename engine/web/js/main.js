@@ -83,6 +83,8 @@ view.addEventListener('click', async (e) => {
     case 'rotate': PR.mergeRotate([...M.sel]); break;
     case 'delete': PR.mergeDelete([...M.sel]); break;
     case 'remove-file': PR.mergeRemoveFile(b.dataset.id); break;
+    case 'clear-all': PR.clearAll(); break;
+    case 'unload': PR.unloadCurrent(); break;
     case 'save': PR.mergeSave(); break;
 
     // 분할
@@ -122,7 +124,7 @@ view.addEventListener('click', async (e) => {
       if (x) { x.r = (x.r + 90) % 360; PR.render(); }
       break;
     }
-    case 'photo-remove': IP.items = IP.items.filter((i) => i.k !== b.dataset.k); IP.sel = null; PR.render(); break;
+    case 'photo-remove': PR.imgRemove([b.dataset.k]); break;
     case 'ip-opt': IP[b.dataset.key] = b.dataset.val; PR.render(); break;
     case 'ip-save': PR.imgSave(); break;
   }
@@ -168,7 +170,7 @@ document.addEventListener('keydown', (e) => {
     else if (e.key === 'Escape') view.querySelector('[data-act="sel-clear"]')?.click();
   } else if (S.screen === 'img2pdf') {
     const IP = PR.IP;
-    if ((e.key === 'Backspace' || e.key === 'Delete') && IP.sel) { e.preventDefault(); IP.items = IP.items.filter((i) => i.k !== IP.sel); IP.sel = null; PR.render(); }
+    if ((e.key === 'Backspace' || e.key === 'Delete') && IP.sel) { e.preventDefault(); PR.imgRemove([IP.sel]); }
     else if ((e.key === 'r' || e.key === 'R') && !cmd && IP.sel) { const x = IP.items.find((i) => i.k === IP.sel); if (x) { x.r = (x.r + 90) % 360; PR.render(); } }
   }
 });

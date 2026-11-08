@@ -53,6 +53,7 @@ const IP = { items: [], sel: null, paper: 'photo', orient: 'auto', margin: 'none
 // ---------------------------------------------------------------- 화면 바꾸기
 
 function go(screen, items) {
+  if (screen !== S.screen) for (const el of $$('#toasts .toast[data-kind="undo"]')) el.remove(); // 다른 화면의 '되돌리기'는 치워요
   S.screen = screen;
   if (screen === 'merge' || screen === 'organize') {
     if (M.mode !== screen) { M.files = []; M.pages = []; M.sel.clear(); M.undo = []; }
@@ -245,12 +246,30 @@ function mergeDelete(keys) {
   toast(`${keys.length}쪽을 지웠어요`, { action: { label: '되돌리기', run: mergeUndo } });
 }
 
+// 빼기 알림은 마지막 것 하나만 (되돌리기가 엉뚱한 것을 되돌리지 않게)
+function removedToast(text, undo) {
+  for (const el of $$('#toasts .toast[data-kind="undo"]')) el.remove();
+  const el = toast(text, { sub: '원본 파일은 그대로예요', action: { label: '되돌리기', run: undo } });
+  el.dataset.kind = 'undo';
+}
+
 function mergeRemoveFile(id) {
+  const it = S.files[id];
   mergeSnapshot();
   M.files = M.files.filter((f) => f !== id);
   M.pages = M.pages.filter((p) => p.id !== id);
   M.sel.clear();
   render();
+  removedToast(`${it ? it.name : '파일'} · 목록에서 뺐어요`, mergeUndo);
+}
+
+function mergeClear() {
+  if (!M.files.length) return;
+  const n = M.files.length;
+  mergeSnapshot();
+  M.files = []; M.pages = []; M.sel.clear();
+  render();
+  removedToast(`파일 ${n}개를 모두 목록에서 뺐어요`, mergeUndo);
 }
 
 // 파일 순서를 바꾸면 그 파일의 페이지 묶음도 따라 움직여요 (파일 안의 순서는 그대로)
@@ -311,7 +330,7 @@ function renderMerge() {
       <span class="grip" aria-hidden="true">${ICON.grip}</span>
       <span class="fdot" style="background: ${fileColor(id)}" aria-hidden="true"></span>
       <span class="nm"><b title="${esc(it.name)}">${esc(it.name)}</b><span>${left === it.pages ? `${it.pages}쪽` : `${it.pages}쪽 중 ${left}쪽`}</span></span>
-      <button type="button" class="x" data-act="remove-file" data-id="${esc(id)}" aria-label="${esc(it.name)} 빼기" title="이 파일 빼기">${ICON.x}</button>
+      <button type="button" class="x" data-act="remove-file" data-id="${esc(id)}" aria-label="${esc(it.name)} 목록에서 빼기" title="목록에서 빼기 (원본 파일은 그대로예요)">${ICON.x}</button>
     </div>`;
   }).join('');
   const selKeys = [...M.sel];
@@ -339,9 +358,9 @@ function renderMerge() {
   return `${toolbar(t.title, flow, right)}
     <div class="workarea">
       <aside class="panel left" data-drop="here">
-        <div style="display: flex; flex-direction: column; gap: 2px"><h2 style="font-size: 14px">넣은 파일 ${nFiles}개</h2><span style="font-size: 12px; color: var(--muted)">${nFiles > 1 ? '끌어서 파일 순서를 바꿔요' : '파일을 더 넣으면 뒤에 이어 붙여요'}</span></div>
+        <div style="display: flex; flex-direction: column; gap: 2px"><div style="display: flex; align-items: center; gap: 8px; margin: -6px 0"><h2 style="flex: 1; font-size: 14px">넣은 파일 ${nFiles}개</h2><button type="button" class="btn ghost sm" data-act="clear-all" title="넣은 파일을 모두 목록에서 빼요 (원본 파일은 그대로예요)" style="height: 32px; padding: 0 8px; margin-right: -8px">모두 빼기</button></div><span style="font-size: 12px; color: var(--muted)">${nFiles > 1 ? '끌어서 파일 순서를 바꿔요' : '파일을 더 넣으면 뒤에 이어 붙여요'}</span></div>
         ${files}
-        <p class="hint">색 점은 어느 파일의 페이지인지 알려 줘요. 저장하면 원본은 그대로 두고 새 파일을 만들어요.</p>
+        <p class="hint">색 점은 어느 파일의 페이지인지 알려 줘요. ✕를 누르면 그 파일을 목록에서 빼요. 원본 파일은 그대로예요.</p>
       </aside>
       <section class="main-pane" data-drop="here">
         ${selBar}
@@ -391,7 +410,7 @@ function renderSplit() {
   const usesPick = SP.mode === 'pick' || (SP.mode === 'jpg' && SP.scope === 'picked');
   const allJpg = SP.mode === 'jpg' && SP.scope === 'all';
   const flow = `<span class="fmt pdf">PDF</span>→<span class="fmt ${SP.mode === 'jpg' ? 'off' : 'pdf'}">PDF</span><span class="fmt ${SP.mode === 'jpg' ? 'img' : 'off'}">JPG</span>`;
-  const right = `<span style="font-size: 14px; color: var(--muted)">${esc(it.name)} · ${it.pages}쪽</span><button type="button" class="btn sm" data-act="pick">다른 파일</button>`;
+  const right = `<span style="font-size: 14px; color: var(--muted)">${esc(it.name)} · ${it.pages}쪽</span><button type="button" class="btn sm" data-act="pick">다른 파일</button><button type="button" class="btn sm" data-act="unload" title="목록에서 빼기 (원본 파일은 그대로예요)">${ICON.x}빼기</button>`;
   const tiles = [];
   for (let p = 1; p <= it.pages; p++) {
     const on = allJpg || SP.sel.has(p);
@@ -529,6 +548,7 @@ function renderConvert() {
     <span class="doc">${thumbImg(it.id, 1, 0)}</span>
     <span class="nm"><b>${esc(it.name)}</b><span>${it.pages}쪽 · 지금 크기 ${fmtSize(it.size)}</span></span>
     <button type="button" class="btn sm" data-act="pick">다른 파일</button>
+    <button type="button" class="btn sm" data-act="unload" title="목록에서 빼기 (원본 파일은 그대로예요)">${ICON.x}빼기</button>
   </div>`;
   let body = '';
   if (CV.tab === 'compress') {
@@ -619,7 +639,7 @@ function imgMove(keys, beforeKey) {
 function renderImg() {
   const t = TASKS.img2pdf;
   const flow = `<span class="fmt img">JPG</span><span class="fmt img">PNG</span>${S.settings.heic === false ? '' : '<span class="fmt img">HEIC</span>'}→<span class="fmt pdf">PDF</span>`;
-  const right = `<button type="button" class="btn" data-act="pick">${ICON.plus}사진 추가</button>`;
+  const right = `${IP.items.length ? '<button type="button" class="btn ghost" data-act="clear-all" title="넣은 사진을 모두 목록에서 빼요 (원본 사진은 그대로예요)">모두 빼기</button>' : ''}<button type="button" class="btn" data-act="pick">${ICON.plus}사진 추가</button>`;
   if (!IP.items.length) {
     return `${toolbar(t.title, flow, right)}
       <div class="scroll"><div class="center" style="max-width: 760px">${emptyDrop('image', 'PDF로 만들 사진을 넣어 주세요', '여기에 사진을 끌어다 놓거나, 아래 버튼으로 골라요. 넣은 순서대로 페이지가 돼요.')}</div></div>
@@ -634,6 +654,7 @@ function renderImg() {
         <span class="order" aria-hidden="true">${i + 1}</span>
         <span class="tag img" aria-hidden="true">${esc(it.ext.toUpperCase().replace('JPEG', 'JPG'))}</span>
       </button>
+      <button type="button" class="tile-x" data-act="photo-remove" data-k="${x.k}" aria-label="${esc(it.name)} 목록에서 빼기" title="목록에서 빼기 (원본 사진은 그대로예요)">${ICON.x}</button>
       ${on
         ? `<div class="acts"><button type="button" data-act="photo-rotate" data-k="${x.k}" aria-label="이 사진 회전" title="시계 방향으로 돌리기">${ICON.rot16}</button><button type="button" class="del" data-act="photo-remove" data-k="${x.k}" aria-label="이 사진 빼기" title="빼기">${ICON.trash16}</button></div>`
         : `<span class="cap" style="font-size: 13px; color: var(--ink)">${esc(it.name)}</span>`}
@@ -650,7 +671,7 @@ function renderImg() {
   return `${toolbar(t.title, flow, right)}
     <div class="workarea">
       <section class="main-pane" data-drop="here">
-        <p style="margin: 0; font-size: 14px; color: var(--muted)">사진을 끌어서 순서를 정하세요. 이 순서대로 PDF 페이지가 만들어져요.</p>
+        <p style="margin: 0; font-size: 14px; color: var(--muted)">사진을 끌어서 순서를 정하세요. 이 순서대로 PDF 페이지가 만들어져요. ✕를 누르면 목록에서 빼요.</p>
         <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))">${tiles}
           <div class="tile"><button type="button" class="addphoto" data-act="pick">${ICON.plus}사진 더 넣기</button></div>
         </div>
@@ -828,5 +849,38 @@ async function pollUpdate() {
 }
 PR.pollUpdate = pollUpdate;
 
-Object.assign(PR, { M, SP, CV, IP, mergeAdd, mergeUndo, mergeRotate, mergeDelete, mergeRemoveFile, mergeMoveFile, mergeMovePages, mergeSave,
+// 지금 화면에 넣은 PDF 를 목록에서 빼요 (분할 · 압축/변환) — 원본 파일은 그대로
+function unloadCurrent() {
+  if (S.screen === 'split' && SP.id) {
+    const prev = { id: SP.id, sel: new Set(SP.sel), ranges: SP.ranges };
+    const name = S.files[SP.id] ? S.files[SP.id].name : '파일';
+    SP.id = null; SP.sel = new Set(); SP.ranges = '';
+    render();
+    removedToast(`${name} · 목록에서 뺐어요`, () => { if (S.screen === 'split' && !SP.id) { Object.assign(SP, prev); render(); } });
+  } else if (S.screen === 'convert' && CV.id) {
+    const prev = { id: CV.id, est: CV.est, pages: CV.pages };
+    const name = S.files[CV.id] ? S.files[CV.id].name : '파일';
+    CV.id = null; CV.est = null; CV.pages = '';
+    render();
+    removedToast(`${name} · 목록에서 뺐어요`, () => { if (S.screen === 'convert' && !CV.id) { Object.assign(CV, prev); render(); } });
+  }
+}
+
+function imgRemove(keys) {
+  const before = IP.items.slice();
+  const gone = IP.items.filter((x) => keys.includes(x.k));
+  if (!gone.length) return;
+  IP.items = IP.items.filter((x) => !keys.includes(x.k));
+  IP.sel = null;
+  render();
+  const what = gone.length === 1 ? `${(S.files[gone[0].id] || {}).name || '사진'} · 목록에서 뺐어요` : `사진 ${gone.length}장을 모두 목록에서 뺐어요`;
+  removedToast(what, () => { if (S.screen === 'img2pdf') { IP.items = before; render(); } });
+}
+
+function clearAll() {
+  if (S.screen === 'merge') mergeClear();
+  else if (S.screen === 'img2pdf') imgRemove(IP.items.map((x) => x.k));
+}
+
+Object.assign(PR, { unloadCurrent, imgRemove, clearAll, M, SP, CV, IP, mergeAdd, mergeUndo, mergeRotate, mergeDelete, mergeRemoveFile, mergeMoveFile, mergeMovePages, mergeSave,
   splitSave, refreshSplitSummary, setSplitFile, setConvertFile, compressSave, toImages, imgAdd, imgMove, imgSave, chooseTask, TASKS, loadEstimate, installUpdate, restartApp });
