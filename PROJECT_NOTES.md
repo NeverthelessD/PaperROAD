@@ -22,8 +22,8 @@ PDF 페이지 정리 · 변환 앱. macOS (Apple Silicon). made by. Nevertheless
 - [x] 7. 사용 가이드 이미지 (docs/PaperROAD_사용가이드.png)
 - [x] 8. 맥 빌드 서버: build=ok · smoke=ok (24/24, macOS 15 · Apple Silicon), 스크린샷이 시안과 같음 확인
 - [x] 9. v1.0.0 release.sh → releases/ · download/ · 커밋 · 푸시, '앱 받기' 링크 확인
-- [ ] 10. v1.1.0 (사용자 요청): 창이 앞에 있을 때 맨 위를 잡아도 창이 안 옮겨짐 → main.swift DragStrip(맨 위 52pt) · smoke M1(scripts/drag-test.swift)
-      · ⌫ 뒤로 가기(ROAD 앱 공통, 고른 페이지 · 사진이 있으면 ⌫ 는 지우기가 먼저, ⌘[ 도 뒤로) → 맥 빌드 서버 통과 뒤 release.sh
+- [x] 10. v1.1.0 (사용자 요청): 창이 앞에 있을 때 맨 위를 잡아도 창이 안 옮겨짐 → main.swift DragStrip(맨 위 52pt) · smoke M1(scripts/drag-test.swift)
+      · ⌫ 뒤로 가기(ROAD 앱 공통, 고른 페이지 · 사진이 있으면 ⌫ 는 지우기가 먼저, ⌘[ 도 뒤로) → 맥 빌드 서버 통과(M1 창 옮기기 실제 확인) · 내보냄
 
 ### 다음에 할 수 있는 일
 - [ ] 사용자 맥에서 실제로 써 보기 (끌어 놓기 · 파일 선택 창 · 저장 위치 · HEIC)
