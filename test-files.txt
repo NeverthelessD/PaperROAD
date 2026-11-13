@@ -1,0 +1,8 @@
+total 280
+drwxr-xr-x   7 runner  staff    224 Nov 13 10:56 .
+drwxr-x---+ 41 runner  staff   1312 Nov 13 10:56 ..
+-rw-r--r--   1 runner  staff  16002 Nov 13 10:56 사진.heic
+-rw-r--r--   1 runner  staff  60009 Nov 13 10:56 사진.jpg
+-rw-r--r--   1 runner  staff  15297 Nov 13 10:56 회의자료.pdf
+-rw-r--r--   1 runner  staff  43730 Nov 13 10:56 사진.png
+-rw-r--r--   1 runner  staff    142 Nov 13 10:56 회의자료.txt

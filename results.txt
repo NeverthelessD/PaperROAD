@@ -1,0 +1,25 @@
+PASS  A1 앱을 열면 엔진이 준비됨
+PASS  A2 엔진이 Dock 앱 방식으로 켜짐(shell=native)
+PASS  A3 주소가 47931
+PASS  A4 화면이 앱 창(WKWebView)에서 열림
+PASS  A5 엔진이 PaperROAD 앱의 자식 (앱 3295 → 지킴이 3301 → 엔진 3304)
+PASS  P0 시험 PDF(한글) 만들기 (cupsfilter)
+PASS  P1 PDF 와 사진 3장(PNG · JPG · HEIC)을 넣음 (PDF 3쪽, 사진 3장)
+PASS  P2 사진 3장(HEIC 포함) → PDF
+PASS  P3 두 PDF 합치기 · 순서 · 회전 → 사진모음_합침.pdf
+PASS  P4 합친 PDF 가 3쪽
+PASS  P5 나누기 (1쪽씩 → 3개)
+PASS  P6 용량 줄이기 크기 계산
+PASS  S1 합치기 화면에서 PDF 2개를 읽음
+PASS  B1 다시 열기 뒤에도 앱·엔진 그대로
+PASS  M1 창 맨 위를 끌면 창이 움직임 (moved 74 2)
+PASS  O1 앱이 파일을 받아 넣음
+PASS  O2 앱은 하나만
+PASS  C1 엔진 다시 켜짐
+PASS  C2 앱은 그대로
+PASS  D1 앱·엔진 모두 꺼짐
+PASS  E1 앱·엔진 모두 꺼짐
+PASS  F1 남은 엔진 없음
+PASS  G1 새로 열린 앱이 엔진을 켬
+PASS  G2 앱이 새로 열림 (4704 → 4734)
+PASS  G3 앱 하나만 떠 있음

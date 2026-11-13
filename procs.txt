@@ -1,0 +1,5 @@
+--- A 실행 중
+ 3295     1 S    /Applications/PaperROAD.app/Contents/MacOS/PaperROAD
+ 3301  3295 S    /Users/runner/Library/Application Support/PaperROAD/bin/paperroad-engine
+ 3304  3301 S    /Users/runner/Library/Application Support/PaperROAD/bin/paperroad-engine
+--- D 종료 뒤
