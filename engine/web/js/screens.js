@@ -19,7 +19,7 @@ const RECENT_LABEL = { merge: '합치기', organize: '회전 · 삭제', split: 
 
 function toolbar(title, flow, right = '') {
   return `<div class="toolbar">
-    <button type="button" class="back" data-act="home">${ICON.back}처음으로</button>
+    <button type="button" class="back" data-act="home" title="처음으로 (⌫)">${ICON.back}처음으로</button>
     <h1>${esc(title)}</h1>
     ${flow ? `<span class="flow">${flow}</span>` : ''}
     <span class="spacer"></span>

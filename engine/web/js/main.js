@@ -158,6 +158,11 @@ document.addEventListener('keydown', (e) => {
   if (cmd && e.key === ',') { e.preventDefault(); PR.openSettings(); return; }
   if (cmd && (e.key === 'o' || e.key === 'O')) { e.preventDefault(); PR.onMenu('open'); return; }
   if (typing) return;
+  // ⌫ = 뒤로 가기 (ROAD 앱 공통). 고른 것이 있으면 ⌫ 는 원래대로 '지우기'가 먼저예요.
+  if (e.key === 'Backspace' && !cmd && !e.altKey && !e.isComposing && S.screen !== 'home' && !(S.screen === 'merge' && PR.M.sel.size) && !(S.screen === 'img2pdf' && PR.IP.sel)) {
+    e.preventDefault(); PR.go('home'); PR.loadRecent(); return;
+  }
+  if (cmd && e.key === '[') { e.preventDefault(); if (S.screen !== 'home') { PR.go('home'); PR.loadRecent(); } return; }
   if (S.screen === 'merge') {
     const M = PR.M;
     if (cmd && (e.key === 'z' || e.key === 'Z') && !e.shiftKey) { e.preventDefault(); PR.mergeUndo(); }

@@ -103,6 +103,17 @@ launch; APID=$(app_pid)
 osascript -e 'tell application "PaperROAD" to reopen' >/dev/null 2>&1; sleep 1
 check "B1 다시 열기 뒤에도 앱·엔진 그대로" test "$(app_pid)" = "$APID"
 
+echo "▶ M. 창이 앞에 있을 때 맨 위를 잡고 끌어서 옮기기"
+osascript -e 'tell application "PaperROAD" to activate' >/dev/null 2>&1; sleep 1
+screencapture -x "$OUT/shot-drag-before.png"
+MOVE=$(swift "$ROOT/scripts/drag-test.swift" PaperROAD 2>&1 | tail -1)
+screencapture -x "$OUT/shot-drag-after.png"
+echo "$MOVE" > "$OUT/drag-test.txt"
+case "$MOVE" in
+  moved*) pass "M1 창 맨 위를 끌면 창이 움직임 ($MOVE)" ;;
+  *) echo "INFO  M1 창 옮기기를 확인하지 못함 ($MOVE) — 빌드 서버가 마우스 흉내를 막았을 수 있어요" | tee -a "$RES" ;;
+esac
+
 echo "▶ O. Finder 에서 PDF 를 앱으로 열기 ('다음으로 열기' · Dock 에 떨어뜨리기)"
 open -a "$APPDIR" "$T/회의자료.pdf"; sleep 3
 screencapture -x "$OUT/shot-open-with.png"

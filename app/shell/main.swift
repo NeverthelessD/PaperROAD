@@ -280,6 +280,33 @@ final class Bridge: NSObject, WKScriptMessageHandlerWithReply {
     }
 }
 
+// MARK: - 창 맨 위 '잡는 줄'
+// 화면(WKWebView)이 투명한 제목 막대 밑까지 창 전체를 덮고 있어요. 창이 앞에 있을 때(활성) 제목 막대 자리를 누르면
+// 맥이 그 누름을 화면(WKWebView)에 넘겨 주고, WKWebView 는 '창을 옮겨도 된다'고 하지 않아서 창이 움직이지 않았어요.
+// (다른 창을 눌렀다 돌아오면 첫 누름은 '창 앞으로 가져오기'로 맥이 직접 처리해서 움직였던 것.)
+// 그래서 맨 위(제목 막대 + 도구 막대 높이, 52pt)에 투명한 줄을 깔아 두고, 여기를 잡으면 창이 움직여요
+// (두 번 누르면 맥 설정대로 확대 · 최소화). 신호등 단추와 '설정' 단추는 제목 막대 위에 있어서 가려지지 않아요. (DayROAD 와 같은 방식)
+
+final class DragStrip: NSView {
+    static let height: CGFloat = 52
+
+    override var mouseDownCanMoveWindow: Bool { true }
+    override func acceptsFirstMouse(for event: NSEvent?) -> Bool { true }
+
+    override func mouseDown(with event: NSEvent) {
+        guard let w = window else { return }
+        if event.clickCount == 2 {
+            switch UserDefaults.standard.string(forKey: "AppleActionOnDoubleClick") ?? "Maximize" {
+            case "Minimize": w.performMiniaturize(nil)
+            case "None": break
+            default: w.performZoom(nil)
+            }
+            return
+        }
+        w.performDrag(with: event)
+    }
+}
+
 // MARK: - 앱
 
 final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, WKUIDelegate, NSWindowDelegate, NSToolbarDelegate {
@@ -444,7 +471,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, WKNavigationDelegate, 
         window.tabbingMode = .disallowed
         window.collectionBehavior.insert(.fullScreenPrimary)
         window.delegate = self
-        window.contentView = web
+        // 화면 + 맨 위 잡는 줄
+        let box = NSView(frame: NSRect(x: 0, y: 0, width: 1200, height: 820))
+        web.frame = box.bounds
+        web.autoresizingMask = [.width, .height]
+        box.addSubview(web)
+        let strip = DragStrip(frame: NSRect(x: 0, y: box.bounds.height - DragStrip.height, width: box.bounds.width, height: DragStrip.height))
+        strip.autoresizingMask = [.width, .minYMargin]
+        box.addSubview(strip)
+        window.contentView = box
         if !window.setFrameUsingName("PaperROADMain") { window.center() }
         window.setFrameAutosaveName("PaperROADMain")
         window.makeKeyAndOrderFront(nil)
